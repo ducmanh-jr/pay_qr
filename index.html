@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>QR is Me - NGUYEN DUC MANH</title>
   
-  <link rel="apple-touch-icon" href="icon.png">
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="logo.jpg">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <link rel="shortcut icon" href="logo.jpg">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="QR is Me">
   
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20is%20Me%22%2C%22short_name%22%3A%22QR%20is%20Me%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22icon.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20is%20Me%22%2C%22short_name%22%3A%22QR%20is%20Me%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22logo.jpg%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fjpeg%22%7D%5D%7D">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,12 +51,17 @@
       position: relative;
       width: 100%;
       height: 100%;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px) 16px;
+      padding: env(safe-area-inset-top, 24px) 16px env(safe-area-inset-bottom, 24px) 16px;
       transition: background-image 0.4s ease-in-out;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      filter: brightness(1.18);
     }
 
     /* Trên Máy Tính (Desktop / Laptop): Đồ họa Khung viền Mi 11 Ultra căn giữa trên nền Đen tuyền */
@@ -72,22 +78,20 @@
         max-height: 92vh;
         border-radius: 44px;
         overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
         box-shadow: 0 0 0 10px #181820, 0 0 0 12px rgba(255, 255, 255, 0.15), 0 30px 80px rgba(0, 0, 0, 0.95);
-        filter: brightness(1.15);
+        padding: 30px 20px;
       }
     }
 
-    /* Trên Điện Thoại Mobile: Trải rộng 100% toàn màn hình */
+    /* Trên Điện Thoại Mobile: Trải rộng 100% toàn màn hình căn chuẩn */
     @media (max-width: 767px) {
       body {
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        filter: brightness(1.15);
-        transition: background-image 0.4s ease-in-out;
+        background: #000000 !important;
+      }
+      
+      .phone-frame {
+        border-radius: 0;
+        box-shadow: none;
       }
     }
 
@@ -95,12 +99,12 @@
     .bg-overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.25) 100%);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.25) 100%);
       z-index: 1;
       pointer-events: none;
     }
 
-    /* Wrapper chính giữ toàn bộ nội dung căn giữa */
+    /* Wrapper chính giữ toàn bộ nội dung căn giữa gọn gàng ở nửa dưới */
     .main-wrapper {
       position: relative;
       z-index: 10;
@@ -109,37 +113,60 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 360px;
-      gap: 14px;
+      max-width: 320px;
+      gap: 10px;
       user-select: none;
       animation: fadeIn 0.4s ease-out;
     }
 
+    /* Logo Web & App */
+    .app-logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    .app-logo {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.3);
+      transition: transform 0.25s ease;
+    }
+
+    .app-logo:hover {
+      transform: scale(1.06);
+    }
+
     /* Tên chủ tài khoản đè trực tiếp lên ảnh nền */
     .account-name {
-      font-size: 21px;
+      font-size: 18px;
       font-weight: 800;
       color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);
+      letter-spacing: 0.8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8);
       text-align: center;
     }
 
     /* Số tài khoản đè trực tiếp lên ảnh nền, đậm nét rõ ràng */
     .account-number {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 800;
       color: #ffffff;
-      letter-spacing: 2px;
+      letter-spacing: 1.8px;
       font-family: 'SF Mono', 'Roboto Mono', monospace;
       cursor: pointer;
       display: inline-block;
-      padding: 2px 8px;
+      padding: 0 4px;
       background: transparent;
       border: none;
       box-shadow: none;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8);
       transition: transform 0.2s ease;
     }
 
@@ -147,18 +174,17 @@
       transform: scale(0.95);
     }
 
-    /* Khung chứa mã QR nhỏ gọn nhất để không che ảnh nền */
     .qr-frame {
       background: #ffffff;
-      padding: 10px;
-      border-radius: 20px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.3);
+      padding: 8px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 220px;
-      height: 220px;
-      margin: 4px 0;
+      width: 165px;
+      height: 165px;
+      margin: 2px 0;
     }
 
     .qr-image {
@@ -174,10 +200,12 @@
       position: relative;
       z-index: 10;
       display: flex;
+      flex-wrap: wrap;
+      max-width: 100%;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 6px 12px;
+      gap: 6px;
+      padding: 4px 8px;
       background: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
@@ -186,8 +214,8 @@
     }
 
     .dot {
-      width: 7px;
-      height: 7px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.45);
       cursor: pointer;
@@ -196,8 +224,8 @@
     }
 
     .dot.active {
-      width: 9px;
-      height: 9px;
+      width: 7px;
+      height: 7px;
       background: #ffffff;
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 2px 5px rgba(0, 0, 0, 0.8);
     }
@@ -231,12 +259,9 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* Tối ưu kích thước trên màn hình Mi 11 Ultra */
+    /* Tối ưu vị trí cân đối trên màn hình Mi 11 Ultra */
     @media (min-height: 800px) {
-      .main-wrapper { gap: 18px; }
-      .account-name { font-size: 23px; }
-      .account-number { font-size: 17px; padding: 8px 18px; }
-      .qr-frame { width: 240px; height: 240px; padding: 12px; }
+      .main-wrapper { gap: 12px; }
     }
   </style>
 </head>
@@ -247,12 +272,17 @@
     <div class="bg-overlay"></div>
 
     <div class="main-wrapper">
+      <!-- Logo Web & App -->
+      <div class="app-logo-container">
+        <img src="logo.jpg" alt="Logo" class="app-logo">
+      </div>
+
       <!-- Tên & Số tài khoản đè trực tiếp lên bức ảnh nền -->
       <div class="account-name">NGUYEN DUC MANH</div>
       
       <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép số tài khoản">2026 2027 202</div>
 
-      <!-- Khung QR siêu nhỏ gọn để không che ảnh nền -->
+      <!-- Khung QR với chữ M ở chính giữa -->
       <div class="qr-frame">
         <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank NGUYEN DUC MANH">
       </div>
@@ -274,16 +304,32 @@
       'img/973692381950275438.jpg',
       'img/790100328393841185.jpg',
       'img/935974735068844819.jpg',
-      'img/1100145015255767390.jpg'
+      'img/1100145015255767390.jpg',
+      'img/316800155049851743.jpg',
+      'img/889038782735729567.jpg',
+      'img/913738211895783226.jpg',
+      'img/949063321487275333.jpg'
     ];
 
-    let currentBgIndex = parseInt(localStorage.getItem('saved_bg_index') || '0', 10);
-    if (isNaN(currentBgIndex) || currentBgIndex < 0 || currentBgIndex >= wallpapers.length) {
+    // Đọc đường dẫn ảnh đã lưu (Lưu theo tên file ảnh chính xác để luôn luôn mở đúng ảnh A)
+    let currentBgIndex = 0;
+    try {
+      const savedPath = localStorage.getItem('saved_bg_path');
+      if (savedPath && wallpapers.includes(savedPath)) {
+        currentBgIndex = wallpapers.indexOf(savedPath);
+      } else {
+        const savedIndex = parseInt(localStorage.getItem('saved_bg_index') || '0', 10);
+        if (!isNaN(savedIndex) && savedIndex >= 0 && savedIndex < wallpapers.length) {
+          currentBgIndex = savedIndex;
+        }
+      }
+    } catch (e) {
       currentBgIndex = 0;
     }
 
     function renderDots() {
       const c = document.getElementById('dotsContainer');
+      if (!c) return;
       c.innerHTML = '';
       wallpapers.forEach((_, i) => {
         const d = document.createElement('div');
@@ -295,11 +341,16 @@
 
     function applyWallpaper(i) {
       currentBgIndex = i;
-      const bgUrl = `url('${wallpapers[i]}')`;
-      document.body.style.backgroundImage = bgUrl;
+      const targetPath = wallpapers[i];
+      const bgUrl = `url('${targetPath}')`;
       const frame = document.getElementById('phoneFrame');
       if (frame) frame.style.backgroundImage = bgUrl;
-      localStorage.setItem('saved_bg_index', i.toString());
+      
+      try {
+        localStorage.setItem('saved_bg_path', targetPath);
+        localStorage.setItem('saved_bg_index', i.toString());
+      } catch (e) {}
+
       renderDots();
     }
 
