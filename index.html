@@ -6,13 +6,13 @@
   <title>QR TPBank - NGUYEN DUC MANH</title>
   
   <!-- Apple Touch Icon & Favicon -->
-  <link rel="apple-touch-icon" href="https://img.vietqr.io/image/TPB-20262027202-compact2.png">
+  <link rel="apple-touch-icon" href="https://img.vietqr.io/image/TPB-20262027202-qr_only.png">
   <link rel="icon" type="image/png" href="https://api.vietqr.io/img/TPB.png">
   
-  <!-- PWA Manifest (Giúp ứng dụng chạy độc lập khi cài ra màn hình chính) -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20TPBank%22%2C%22short_name%22%3A%22QR%20Pay%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23180933%22%2C%22theme_color%22%3A%22%232C124D%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimg.vietqr.io%2Fimage%2FTPB-20262027202-compact2.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20TPBank%22%2C%22short_name%22%3A%22QR%20Pay%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23180933%22%2C%22theme_color%22%3A%22%232C124D%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimg.vietqr.io%2Fimage%2FTPB-20262027202-qr_only.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
 
-  <!-- Font chữ hiện đại -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
@@ -37,16 +37,15 @@
       color: #ffffff;
     }
 
-    /* Thẻ hiển thị QR tối giản */
+    /* Thẻ hiển thị QR thuần túy, siêu tối giản */
     .qr-card {
       background: #ffffff;
-      padding: 24px 20px;
+      padding: 28px 24px;
       border-radius: 24px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       width: 100%;
-      max-width: 360px;
+      max-width: 340px;
       text-align: center;
-      animation: fadeIn 0.4s ease-out;
     }
 
     .account-name {
@@ -61,8 +60,8 @@
     .account-number {
       font-size: 16px;
       font-weight: 700;
-      color: #555566;
-      margin-bottom: 16px;
+      color: #64748b;
+      margin-bottom: 20px;
       letter-spacing: 1px;
       font-family: monospace;
       cursor: pointer;
@@ -79,11 +78,12 @@
     .qr-image {
       width: 100%;
       height: auto;
+      aspect-ratio: 1 / 1;
       border-radius: 12px;
       display: block;
     }
 
-    /* Thông báo khi bấm copy STK */
+    /* Thông báo Toast khi copy */
     .toast {
       position: fixed;
       bottom: 30px;
@@ -103,20 +103,15 @@
       opacity: 1;
       transform: translateY(0);
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Thẻ chính chỉ chứa: Tên, Số tài khoản & Mã QR -->
   <div class="qr-card">
     <div class="account-name">NGUYEN DUC MANH</div>
-    <div class="account-number" onclick="copySTK()" title="Bấm để copy">2026 2027 202</div>
-    <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-compact2.png?accountName=NGUYEN%20DUC%20MANH" alt="Mã QR TPBank">
+    <div class="account-number" onclick="copySTK()" title="Bấm để sao chép">2026 2027 202</div>
+    <!-- Dùng mẫu qr_only: chỉ lấy đúng mã QR tinh gọn, không dính logo thừa hay chữ số tiền 0đ -->
+    <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank">
   </div>
 
   <div id="toast" class="toast">Đã sao chép số tài khoản!</div>
