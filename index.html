@@ -3,42 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mã QR TPBank - NGUYEN DUC MANH</title>
-  
-  <!-- Meta & PWA -->
-  <meta name="description" content="Mã QR thanh toán chuyển khoản TPBank - NGUYEN DUC MANH">
-  <meta name="theme-color" content="#240A4D">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="QR TPBank">
+  <title>QR TPBank - NGUYEN DUC MANH</title>
   
   <!-- Apple Touch Icon & Favicon -->
   <link rel="apple-touch-icon" href="https://img.vietqr.io/image/TPB-20262027202-compact2.png">
   <link rel="icon" type="image/png" href="https://api.vietqr.io/img/TPB.png">
   
-  <!-- PWA Manifest -->
+  <!-- PWA Manifest (Giúp ứng dụng chạy độc lập khi cài ra màn hình chính) -->
   <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20TPBank%22%2C%22short_name%22%3A%22QR%20Pay%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23180933%22%2C%22theme_color%22%3A%22%232C124D%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimg.vietqr.io%2Fimage%2FTPB-20262027202-compact2.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
 
-  <!-- Google Fonts -->
+  <!-- Font chữ hiện đại -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg-gradient: linear-gradient(180deg, #180933 0%, #3e1258 50%, #1a0836 100%);
-      --tpbank-purple: #2C124D;
-      --tpbank-orange: #FF6B00;
-      --accent-purple: #7C3AED;
-      --radius-lg: 24px;
-      --radius-md: 14px;
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -48,508 +32,102 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: var(--bg-gradient);
-      padding: 16px;
-      position: relative;
-      overflow-x: hidden;
+      background: linear-gradient(180deg, #180933 0%, #3e1258 50%, #1a0836 100%);
+      padding: 20px;
       color: #ffffff;
     }
 
-    /* Ambient Background Glows */
-    .glow-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      z-index: 0;
-      opacity: 0.45;
-      pointer-events: none;
-    }
-    .glow-1 {
-      width: 320px;
-      height: 320px;
-      background: #7c3aed;
-      top: -60px;
-      left: -60px;
-    }
-    .glow-2 {
-      width: 280px;
-      height: 280px;
-      background: #c026d3;
-      bottom: -60px;
-      right: -60px;
-    }
-
-    .app-container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Main QR Image Container Card */
-    .qr-card-wrapper {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
-      text-align: center;
-      position: relative;
-    }
-
-    .qr-image-frame {
-      position: relative;
-      width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
+    /* Thẻ hiển thị QR tối giản */
+    .qr-card {
       background: #ffffff;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 340px;
+      padding: 24px 20px;
+      border-radius: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      width: 100%;
+      max-width: 360px;
+      text-align: center;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .account-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: #2C124D;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .account-number {
+      font-size: 16px;
+      font-weight: 700;
+      color: #555566;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+      font-family: monospace;
+      cursor: pointer;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .account-number:active {
+      background: rgba(44, 18, 77, 0.1);
     }
 
     .qr-image {
       width: 100%;
       height: auto;
+      border-radius: 12px;
       display: block;
-      object-fit: contain;
-      border-radius: 16px;
     }
 
-    .qr-loading-spinner {
-      position: absolute;
-      inset: 0;
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: #64748b;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .spinner {
-      width: 36px;
-      height: 36px;
-      border: 3px solid rgba(124, 58, 237, 0.2);
-      border-top-color: #7c3aed;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    /* Quick Copy Account Bar */
-    .copy-account-bar {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: var(--radius-md);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.2s ease;
-    }
-
-    .copy-account-bar:hover {
-      background: rgba(255, 255, 255, 0.18);
-      transform: translateY(-1px);
-    }
-
-    .copy-account-bar:active {
-      transform: scale(0.98);
-    }
-
-    .account-info-text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .account-label {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 600;
-    }
-
-    .account-value {
-      font-size: 16px;
-      font-weight: 800;
-      color: #ffffff;
-      letter-spacing: 1px;
-      font-family: monospace;
-    }
-
-    .copy-badge {
-      background: linear-gradient(135deg, #7C3AED, #5B21B6);
-      color: white;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
-    }
-
-    /* Actions Grid */
-    .action-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 16px;
-      border-radius: var(--radius-md);
-      font-size: 14px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #FF6B00 0%, #E05300 100%);
-      color: white;
-      box-shadow: 0 4px 14px rgba(255, 107, 0, 0.4);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(10px);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-2px);
-    }
-
-    .btn:active {
-      transform: scale(0.97) !important;
-    }
-
-    /* Accordion Options */
-    .options-accordion {
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(12px);
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 12px 14px;
-    }
-
-    .accordion-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.85);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .accordion-body {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .input-field {
-      width: 100%;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-
-    .input-field::placeholder {
-      color: rgba(255, 255, 255, 0.45);
-    }
-
-    .input-field:focus {
-      border-color: var(--tpbank-orange);
-    }
-
-    /* Template Switcher Buttons */
-    .template-selector {
-      display: flex;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .template-btn {
-      flex: 1;
-      padding: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.05);
-      color: rgba(255, 255, 255, 0.8);
-      cursor: pointer;
-    }
-
-    .template-btn.active {
-      background: var(--tpbank-orange);
-      border-color: var(--tpbank-orange);
-      color: white;
-    }
-
-    /* Toast Notification */
+    /* Thông báo khi bấm copy STK */
     .toast {
       position: fixed;
       bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
       background: #0f172a;
       color: #ffffff;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
       font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      z-index: 100;
       opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(20px);
+      transition: all 0.3s ease;
       pointer-events: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .toast.show {
-      transform: translateX(-50%) translateY(0);
       opacity: 1;
+      transform: translateY(0);
     }
 
-    .footer-text {
-      text-align: center;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Ambient Light Effects -->
-  <div class="glow-orb glow-1"></div>
-  <div class="glow-orb glow-2"></div>
-
-  <div class="app-container">
-    
-    <!-- VietQR Card -->
-    <div class="qr-card-wrapper">
-      <div class="qr-image-frame">
-        <img id="qrImage" class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-compact2.png?accountName=NGUYEN%20DUC%20MANH" alt="Mã QR TPBank NGUYEN DUC MANH" onload="hideQRLoading()">
-        <div id="qrLoading" class="qr-loading-spinner">
-          <div class="spinner"></div>
-          <span>Đang tạo mã QR VietQR...</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick Copy Account Number Bar -->
-    <div class="copy-account-bar" onclick="copyAccountNumber()" title="Bấm để sao chép số tài khoản">
-      <div class="account-info-text">
-        <span class="account-label">STK TPBank • NGUYEN DUC MANH</span>
-        <span class="account-value">2026 2027 202</span>
-      </div>
-      <div class="copy-badge">
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        Sao chép
-      </div>
-    </div>
-
-    <!-- Action Buttons Grid -->
-    <div class="action-grid">
-      <button class="btn btn-primary" onclick="copyAccountNumber()">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        Sao chép STK
-      </button>
-      <button class="btn btn-secondary" onclick="shareOrDownload()">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
-        Chia sẻ QR
-      </button>
-    </div>
-
-    <!-- Optional Amount & Note Accordion -->
-    <div class="options-accordion">
-      <div class="accordion-title" onclick="toggleAccordion()">
-        <span>⚙️ Thêm số tiền / Nội dung (Tùy chọn)</span>
-        <span id="accordionArrow">▼</span>
-      </div>
-      <div class="accordion-body" id="accordionBody" style="display: none;">
-        <input type="number" id="inputAmount" class="input-field" placeholder="Nhập số tiền (VD: 50000)" oninput="updateQR()">
-        <input type="text" id="inputMemo" class="input-field" placeholder="Nội dung chuyển khoản" oninput="updateQR()">
-        
-        <div style="font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 2px;">Kiểu hiển thị thẻ QR:</div>
-        <div class="template-selector">
-          <button class="template-btn active" id="tmpl-compact2" onclick="setTemplate('compact2')">Compact 2</button>
-          <button class="template-btn" id="tmpl-compact" onclick="setTemplate('compact')">Compact</button>
-          <button class="template-btn" id="tmpl-qr_only" onclick="setTemplate('qr_only')">Chỉ QR</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-text">
-      Quét mã bằng App Ngân hàng hoặc Ví MoMo, VNPay, ZaloPay
-    </div>
-
+  <!-- Thẻ chính chỉ chứa: Tên, Số tài khoản & Mã QR -->
+  <div class="qr-card">
+    <div class="account-name">NGUYEN DUC MANH</div>
+    <div class="account-number" onclick="copySTK()" title="Bấm để copy">2026 2027 202</div>
+    <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-compact2.png?accountName=NGUYEN%20DUC%20MANH" alt="Mã QR TPBank">
   </div>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="toast">
-    <span id="toastIcon">✓</span>
-    <span id="toastMessage">Đã sao chép số tài khoản!</span>
-  </div>
+  <div id="toast" class="toast">Đã sao chép số tài khoản!</div>
 
   <script>
-    const ACCOUNT_NO = "20262027202";
-    const BANK_ID = "TPB";
-    const ACCOUNT_NAME = "NGUYEN DUC MANH";
-    let currentTemplate = "compact2";
-
-    function hideQRLoading() {
-      const loadingEl = document.getElementById('qrLoading');
-      if (loadingEl) loadingEl.style.display = 'none';
-    }
-
-    function showToast(message, icon = '✓') {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMessage').innerText = message;
-      document.getElementById('toastIcon').innerText = icon;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2500);
-    }
-
-    function copyAccountNumber() {
-      navigator.clipboard.writeText(ACCOUNT_NO).then(() => {
-        showToast("Đã sao chép STK: 2026 2027 202");
-      }).catch(() => {
-        const textarea = document.createElement('textarea');
-        textarea.value = ACCOUNT_NO;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast("Đã sao chép STK: 2026 2027 202");
+    function copySTK() {
+      navigator.clipboard.writeText("20262027202").then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
       });
-    }
-
-    function toggleAccordion() {
-      const body = document.getElementById('accordionBody');
-      const arrow = document.getElementById('accordionArrow');
-      if (body.style.display === 'none') {
-        body.style.display = 'flex';
-        arrow.innerText = '▲';
-      } else {
-        body.style.display = 'none';
-        arrow.innerText = '▼';
-      }
-    }
-
-    function setTemplate(tmpl) {
-      currentTemplate = tmpl;
-      document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(`tmpl-${tmpl}`).classList.add('active');
-      updateQR();
-    }
-
-    function updateQR() {
-      const amount = document.getElementById('inputAmount').value.trim();
-      const memo = document.getElementById('inputMemo').value.trim();
-      const qrImg = document.getElementById('qrImage');
-      const loading = document.getElementById('qrLoading');
-
-      loading.style.display = 'flex';
-
-      let url = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-${currentTemplate}.png?accountName=${encodeURIComponent(ACCOUNT_NAME)}`;
-      
-      if (amount && !isNaN(amount)) {
-        url += `&amount=${amount}`;
-      }
-      if (memo) {
-        url += `&addInfo=${encodeURIComponent(memo)}`;
-      }
-
-      qrImg.src = url;
-    }
-
-    async function shareOrDownload() {
-      const qrImg = document.getElementById('qrImage');
-      const imageUrl = qrImg.src;
-
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'Mã QR Thanh Toán TPBank',
-            text: `Thanh toán chuyển khoản TPBank - STK: ${ACCOUNT_NO} (${ACCOUNT_NAME})`,
-            url: window.location.href
-          });
-          return;
-        } catch (err) {
-          console.log('Share canceled or not supported');
-        }
-      }
-      
-      const a = document.createElement('a');
-      a.href = imageUrl;
-      a.download = `QR_TPBank_${ACCOUNT_NO}.png`;
-      a.target = '_blank';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      showToast("Đã mở ảnh QR để tải về!");
     }
   </script>
 </body>
