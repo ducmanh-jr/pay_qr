@@ -41,7 +41,6 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      /* Safe area cho camera đục lỗ Mi 11 Ultra + thanh điều hướng cử chỉ */
       padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px) 16px;
       color: #ffffff;
       position: relative;
@@ -50,16 +49,16 @@
       cursor: pointer;
     }
 
-    /* Dark Vignette Overlay */
+    /* Dark Vignette Overlay mỏng nhẹ để ảnh nền nổi bật nhất */
     .bg-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.7) 100%);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%);
       z-index: 1;
       pointer-events: none;
     }
 
-    /* Wrapper chính giữ toàn bộ nội dung căn giữa hoàn hảo */
+    /* Wrapper chính giữ toàn bộ nội dung căn giữa */
     .main-wrapper {
       position: relative;
       z-index: 10;
@@ -68,81 +67,72 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      max-width: 380px;
-      /* Chiếm đúng không gian giữa, tránh lệch trên màn hình 20:9 dài */
-      flex: 1;
-      gap: 20px;
-    }
-
-    /* Glassmorphism QR Card - Tối ưu tỷ lệ cho 20:9 */
-    .qr-card {
-      background: rgba(18, 18, 24, 0.6);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      padding: 32px 28px;
-      border-radius: 32px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      width: 100%;
-      text-align: center;
-      animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 360px;
+      gap: 14px;
       user-select: none;
+      animation: fadeIn 0.4s ease-out;
     }
 
+    /* Tên chủ tài khoản đè trực tiếp lên ảnh nền */
     .account-name {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 800;
       color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 8px;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      letter-spacing: 1px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.7);
+      text-align: center;
     }
 
+    /* Số tài khoản đè trực tiếp lên ảnh nền */
     .account-number {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
-      color: rgba(255, 255, 255, 0.92);
-      margin-bottom: 24px;
+      color: #ffffff;
       letter-spacing: 2px;
       font-family: 'SF Mono', 'Roboto Mono', monospace;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
       transition: all 0.2s ease;
     }
 
     .account-number:active {
       transform: scale(0.95);
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.65);
     }
 
-    /* Khung QR trắng - Phóng to vừa đẹp trên màn hình 6.81" */
+    /* Khung chứa mã QR nhỏ gọn nhất để không che ảnh nền */
     .qr-frame {
       background: #ffffff;
-      padding: 16px;
+      padding: 10px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.3);
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 220px;
+      height: 220px;
+      margin: 4px 0;
     }
 
     .qr-image {
       width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
+      height: 100%;
       border-radius: 10px;
       display: block;
       pointer-events: none;
     }
 
-    /* Dots Indicator - Đẩy xuống sát đáy */
+    /* Dots Indicator chuyển hình nền */
     .dots-container {
       position: relative;
       z-index: 10;
@@ -150,48 +140,47 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 10px 20px;
-      background: rgba(0, 0, 0, 0.35);
+      padding: 8px 16px;
+      background: rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      margin-bottom: env(safe-area-inset-bottom, 8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.35);
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .dot.active {
-      width: 11px;
-      height: 11px;
+      width: 10px;
+      height: 10px;
       background: #ffffff;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
     }
 
     /* Toast */
     .toast {
       position: fixed;
-      bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+      bottom: calc(25px + env(safe-area-inset-bottom, 0px));
       z-index: 100;
       background: rgba(15, 23, 42, 0.95);
       color: #ffffff;
-      padding: 12px 24px;
-      border-radius: 24px;
-      font-size: 14px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 13px;
       font-weight: 600;
       opacity: 0;
       transform: translateY(20px);
       transition: all 0.3s ease;
       pointer-events: none;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .toast.show {
@@ -199,42 +188,17 @@
       transform: translateY(0);
     }
 
-    @keyframes scaleUp {
-      from { opacity: 0; transform: scale(0.92); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* ===== RESPONSIVE: Tối ưu riêng cho các nhóm màn hình ===== */
-
-    /* Màn hình nhỏ hơn (iPhone SE, điện thoại 5.5") */
-    @media (max-height: 700px) {
-      .qr-card { padding: 20px 18px; border-radius: 24px; }
-      .account-name { font-size: 17px; margin-bottom: 4px; }
-      .account-number { font-size: 14px; padding: 5px 12px; margin-bottom: 14px; }
-      .qr-frame { padding: 10px; border-radius: 14px; }
-      .dots-container { gap: 6px; padding: 7px 14px; }
-      .dot { width: 6px; height: 6px; }
-      .dot.active { width: 9px; height: 9px; }
-    }
-
-    /* Màn hình cao 20:9 (Mi 11 Ultra, Samsung S21 Ultra, etc.) */
-    @media (min-height: 800px) and (max-width: 450px) {
-      .qr-card { padding: 36px 30px; }
-      .account-name { font-size: 22px; margin-bottom: 10px; }
-      .account-number { font-size: 18px; padding: 10px 20px; margin-bottom: 28px; }
-      .qr-frame { padding: 18px; border-radius: 22px; }
-    }
-
-    /* Màn hình rất cao (>900px viewport height) */
-    @media (min-height: 900px) and (max-width: 450px) {
-      .main-wrapper { gap: 28px; }
-      .qr-card { padding: 40px 32px; border-radius: 36px; }
-      .account-name { font-size: 23px; margin-bottom: 12px; }
-      .account-number { font-size: 19px; padding: 10px 22px; margin-bottom: 30px; letter-spacing: 2.5px; }
-      .qr-frame { padding: 20px; border-radius: 24px; }
-      .dots-container { padding: 12px 24px; gap: 9px; }
-      .dot { width: 9px; height: 9px; }
-      .dot.active { width: 13px; height: 13px; }
+    /* Tối ưu kích thước trên màn hình Mi 11 Ultra */
+    @media (min-height: 800px) {
+      .main-wrapper { gap: 18px; }
+      .account-name { font-size: 23px; }
+      .account-number { font-size: 17px; padding: 8px 18px; }
+      .qr-frame { width: 240px; height: 240px; padding: 12px; }
     }
   </style>
 </head>
@@ -243,17 +207,20 @@
   <div class="bg-overlay"></div>
 
   <div class="main-wrapper">
-    <div class="qr-card">
-      <div class="account-name">NGUYEN DUC MANH</div>
-      <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép">
-        <span>2026 2027 202</span>
-        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-      </div>
-      <div class="qr-frame">
-        <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank">
-      </div>
+    <!-- Tên & Số tài khoản đè trực tiếp lên bức ảnh nền -->
+    <div class="account-name">NGUYEN DUC MANH</div>
+    
+    <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép số tài khoản">
+      <span>2026 2027 202</span>
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
     </div>
 
+    <!-- Khung QR siêu nhỏ gọn để không che ảnh nền -->
+    <div class="qr-frame">
+      <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank NGUYEN DUC MANH">
+    </div>
+
+    <!-- Dải chấm tròn chọn hình nền -->
     <div class="dots-container" id="dotsContainer"></div>
   </div>
 
@@ -300,7 +267,7 @@
     function next() { applyWallpaper((currentBgIndex + 1) % wallpapers.length); }
     function prev() { applyWallpaper((currentBgIndex - 1 + wallpapers.length) % wallpapers.length); }
 
-    // Swipe detection
+    // Vuốt màn hình sang trái / phải
     let sx = 0, sy = 0, swiped = false;
     document.addEventListener('touchstart', e => { sx = e.changedTouches[0].screenX; sy = e.changedTouches[0].screenY; swiped = false; });
     document.addEventListener('touchend', e => {
@@ -312,14 +279,14 @@
       }
     });
 
-    // Tap left/right half
+    // Chạm bên trái / bên phải màn hình
     document.addEventListener('click', e => {
       if (swiped) { swiped = false; return; }
       if (e.target.closest('.account-number') || e.target.closest('.dots-container')) return;
       e.clientX < window.innerWidth / 2 ? prev() : next();
     });
 
-    // Keyboard arrows
+    // Bàn phím Mũi tên
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft') prev();
