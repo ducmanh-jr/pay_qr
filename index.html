@@ -10,7 +10,7 @@
   <link rel="icon" type="image/png" href="https://api.vietqr.io/img/TPB.png">
   
   <!-- PWA Manifest -->
-  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20TPBank%22%2C%22short_name%22%3A%22QR%20Pay%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23180933%22%2C%22theme_color%22%3A%22%232C124D%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimg.vietqr.io%2Fimage%2FTPB-20262027202-qr_only.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22QR%20TPBank%22%2C%22short_name%22%3A%22QR%20Pay%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimg.vietqr.io%2Fimage%2FTPB-20262027202-qr_only.png%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,61 +32,129 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(180deg, #180933 0%, #3e1258 50%, #1a0836 100%);
+      background-color: #0d0d11;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       padding: 20px;
       color: #ffffff;
+      position: relative;
+      overflow-x: hidden;
+      transition: background-image 0.5s ease-in-out;
     }
 
-    /* Thẻ hiển thị QR thuần túy, siêu tối giản */
+    /* Dark Vignette Overlay */
+    .bg-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.75) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Glassmorphism Main QR Container */
     .qr-card {
-      background: #ffffff;
+      position: relative;
+      z-index: 10;
+      background: rgba(18, 18, 24, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       padding: 28px 24px;
-      border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      border-radius: 28px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       width: 100%;
       max-width: 340px;
       text-align: center;
+      animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .account-name {
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 800;
-      color: #2C124D;
+      color: #ffffff;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .account-number {
       font-size: 16px;
       font-weight: 700;
-      color: #64748b;
+      color: rgba(255, 255, 255, 0.9);
       margin-bottom: 20px;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       font-family: monospace;
       cursor: pointer;
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 8px;
-      transition: background 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: all 0.2s ease;
+    }
+
+    .account-number:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .account-number:active {
-      background: rgba(44, 18, 77, 0.1);
+      transform: scale(0.96);
+    }
+
+    /* Khung chứa mã QR màu trắng tinh khiết */
+    .qr-frame {
+      background: #ffffff;
+      padding: 14px;
+      border-radius: 18px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .qr-image {
       width: 100%;
       height: auto;
       aspect-ratio: 1 / 1;
-      border-radius: 12px;
+      border-radius: 8px;
       display: block;
     }
 
-    /* Thông báo Toast khi copy */
+    /* Nút đổi hình nền nhanh */
+    .wallpaper-bar {
+      position: relative;
+      z-index: 10;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      transition: all 0.2s ease;
+    }
+
+    .wallpaper-bar:hover {
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+    }
+
+    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 30px;
+      z-index: 100;
       background: #0f172a;
       color: #ffffff;
       padding: 10px 20px;
@@ -97,26 +165,80 @@
       transform: translateY(20px);
       transition: all 0.3s ease;
       pointer-events: none;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
     }
 
     .toast.show {
       opacity: 1;
       transform: translateY(0);
     }
+
+    @keyframes scaleUp {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
   </style>
 </head>
 <body>
 
+  <!-- Dark Background Vignette -->
+  <div class="bg-overlay"></div>
+
+  <!-- QR Card -->
   <div class="qr-card">
     <div class="account-name">NGUYEN DUC MANH</div>
-    <div class="account-number" onclick="copySTK()" title="Bấm để sao chép">2026 2027 202</div>
-    <!-- Dùng mẫu qr_only: chỉ lấy đúng mã QR tinh gọn, không dính logo thừa hay chữ số tiền 0đ -->
-    <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank">
+    <div class="account-number" onclick="copySTK()" title="Bấm để sao chép số tài khoản">
+      <span>2026 2027 202</span>
+      <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+    </div>
+    
+    <!-- Khung nền trắng chứa mã QR đen chuẩn 100% -->
+    <div class="qr-frame">
+      <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank NGUYEN DUC MANH">
+    </div>
+  </div>
+
+  <!-- Nút đổi hình nền nhanh -->
+  <div class="wallpaper-bar" onclick="nextWallpaper()" title="Bấm để đổi hình nền">
+    <span>🖼️ Đổi hình nền</span>
+    <span id="bgIndexTag" style="font-size: 11px; opacity: 0.7;">(1/12)</span>
   </div>
 
   <div id="toast" class="toast">Đã sao chép số tài khoản!</div>
 
   <script>
+    // Danh sách 12 hình nền trong folder img
+    const wallpapers = [
+      'img/137008013658937884.jpg',
+      'img/954200239789131404.jpg',
+      'img/454863631138731052.jpg',
+      'img/bg_daisy.jpg',
+      'img/759701030913767782.jpg',
+      'img/971651688338996661.jpg',
+      'img/973692381950275438.jpg',
+      'img/800233427586822769.jpg',
+      'img/935904366330998579.jpg',
+      'img/790100328393841185.jpg',
+      'img/935974735068844819.jpg',
+      'img/1100145015255767390.jpg'
+    ];
+
+    let currentBgIndex = parseInt(localStorage.getItem('saved_bg_index') || '0', 10);
+    if (isNaN(currentBgIndex) || currentBgIndex < 0 || currentBgIndex >= wallpapers.length) {
+      currentBgIndex = 0;
+    }
+
+    function applyWallpaper(index) {
+      document.body.style.backgroundImage = `url('${wallpapers[index]}')`;
+      document.getElementById('bgIndexTag').innerText = `(${index + 1}/${wallpapers.length})`;
+      localStorage.setItem('saved_bg_index', index.toString());
+    }
+
+    function nextWallpaper() {
+      currentBgIndex = (currentBgIndex + 1) % wallpapers.length;
+      applyWallpaper(currentBgIndex);
+    }
+
     function copySTK() {
       navigator.clipboard.writeText("20262027202").then(() => {
         const toast = document.getElementById('toast');
@@ -124,6 +246,9 @@
         setTimeout(() => toast.classList.remove('show'), 2000);
       });
     }
+
+    // Khởi tạo hình nền ban đầu
+    applyWallpaper(currentBgIndex);
   </script>
 </body>
 </html>
