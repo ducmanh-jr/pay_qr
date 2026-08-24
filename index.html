@@ -39,15 +39,16 @@
       padding: 20px;
       color: #ffffff;
       position: relative;
-      overflow-x: hidden;
-      transition: background-image 0.5s ease-in-out;
+      overflow: hidden;
+      touch-action: pan-y;
+      transition: background-image 0.4s ease-in-out;
     }
 
     /* Dark Vignette Overlay */
     .bg-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.75) 100%);
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.75) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -67,6 +68,7 @@
       max-width: 340px;
       text-align: center;
       animation: scaleUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
     }
 
     .account-name {
@@ -122,32 +124,45 @@
       aspect-ratio: 1 / 1;
       border-radius: 8px;
       display: block;
+      pointer-events: none;
     }
 
-    /* Nút đổi hình nền nhanh */
-    .wallpaper-bar {
+    /* Thanh Chấm Tròn Chuyển Hình Nền (Pagination Dots) */
+    .dots-container {
       position: relative;
       z-index: 10;
-      margin-top: 16px;
+      margin-top: 18px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      justify-content: center;
+      gap: 7px;
       padding: 8px 16px;
-      border-radius: 30px;
-      cursor: pointer;
-      user-select: none;
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, 0.85);
-      transition: all 0.2s ease;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    .wallpaper-bar:hover {
-      background: rgba(0, 0, 0, 0.7);
-      color: #ffffff;
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .dot.active {
+      width: 10px;
+      height: 10px;
+      background: #ffffff;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+      opacity: 1;
     }
 
     /* Toast Notification */
@@ -181,10 +196,10 @@
 </head>
 <body>
 
-  <!-- Dark Background Vignette -->
+  <!-- Dark Background Overlay -->
   <div class="bg-overlay"></div>
 
-  <!-- QR Card -->
+  <!-- Main QR Card -->
   <div class="qr-card">
     <div class="account-name">NGUYEN DUC MANH</div>
     <div class="account-number" onclick="copySTK()" title="Bấm để sao chép số tài khoản">
@@ -192,22 +207,19 @@
       <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
     </div>
     
-    <!-- Khung nền trắng chứa mã QR đen chuẩn 100% -->
+    <!-- Khung nền trắng chứa mã QR đen chuẩn -->
     <div class="qr-frame">
       <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank NGUYEN DUC MANH">
     </div>
   </div>
 
-  <!-- Nút đổi hình nền nhanh -->
-  <div class="wallpaper-bar" onclick="nextWallpaper()" title="Bấm để đổi hình nền">
-    <span>🖼️ Đổi hình nền</span>
-    <span id="bgIndexTag" style="font-size: 11px; opacity: 0.7;">(1/12)</span>
-  </div>
+  <!-- Thanh Chấm Tròn Chuyển Hình Nền (Dots Indicator) -->
+  <div class="dots-container" id="dotsContainer"></div>
 
   <div id="toast" class="toast">Đã sao chép số tài khoản!</div>
 
   <script>
-    // Danh sách 12 hình nền trong folder img
+    // 12 Hình nền nghệ thuật
     const wallpapers = [
       'img/137008013658937884.jpg',
       'img/954200239789131404.jpg',
@@ -228,16 +240,70 @@
       currentBgIndex = 0;
     }
 
+    // Tạo danh sách các chấm tròn
+    function renderDots() {
+      const container = document.getElementById('dotsContainer');
+      container.innerHTML = '';
+      wallpapers.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.className = `dot ${idx === currentBgIndex ? 'active' : ''}`;
+        dot.title = `Hình nền ${idx + 1}`;
+        dot.onclick = () => applyWallpaper(idx);
+        container.appendChild(dot);
+      });
+    }
+
     function applyWallpaper(index) {
+      currentBgIndex = index;
       document.body.style.backgroundImage = `url('${wallpapers[index]}')`;
-      document.getElementById('bgIndexTag').innerText = `(${index + 1}/${wallpapers.length})`;
       localStorage.setItem('saved_bg_index', index.toString());
+      renderDots();
     }
 
     function nextWallpaper() {
-      currentBgIndex = (currentBgIndex + 1) % wallpapers.length;
-      applyWallpaper(currentBgIndex);
+      applyWallpaper((currentBgIndex + 1) % wallpapers.length);
     }
+
+    function prevWallpaper() {
+      applyWallpaper((currentBgIndex - 1 + wallpapers.length) % wallpapers.length);
+    }
+
+    // Nhận diện Cử chỉ Vuốt Ngang trên Màn hình (Swipe Gesture)
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, false);
+
+    document.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+      
+      // Chỉ kích hoạt khi vuốt ngang (diffX lớn hơn diffY và lớn hơn 40px)
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        if (diffX < 0) {
+          nextWallpaper(); // Vuốt sang trái -> Ảnh tiếp theo
+        } else {
+          prevWallpaper(); // Vuốt sang phải -> Ảnh trước đó
+        }
+      }
+    }
+
+    // Phím mũi tên Trái / Phải trên bàn phím
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight') nextWallpaper();
+      if (e.key === 'ArrowLeft') prevWallpaper();
+    });
 
     function copySTK() {
       navigator.clipboard.writeText("20262027202").then(() => {
@@ -247,7 +313,7 @@
       });
     }
 
-    // Khởi tạo hình nền ban đầu
+    // Khởi tạo
     applyWallpaper(currentBgIndex);
   </script>
 </body>
