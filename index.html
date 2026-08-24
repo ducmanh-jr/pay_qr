@@ -45,15 +45,14 @@
       color: #ffffff;
       position: relative;
       touch-action: pan-y;
-      transition: background-image 0.4s ease-in-out;
-      cursor: pointer;
+      filter: brightness(1.15);
     }
 
-    /* Dark Vignette Overlay mỏng nhẹ để ảnh nền nổi bật nhất */
+    /* Đèn lớp phủ cực kỳ mỏng nhẹ để giữ ảnh nền tươi sáng nhất */
     .bg-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
       z-index: 1;
       pointer-events: none;
     }
