@@ -42,6 +42,7 @@
       overflow: hidden;
       touch-action: pan-y;
       transition: background-image 0.4s ease-in-out;
+      cursor: pointer;
     }
 
     /* Dark Vignette Overlay */
@@ -202,7 +203,7 @@
   <!-- Main QR Card -->
   <div class="qr-card">
     <div class="account-name">NGUYEN DUC MANH</div>
-    <div class="account-number" onclick="copySTK()" title="Bấm để sao chép số tài khoản">
+    <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép số tài khoản">
       <span>2026 2027 202</span>
       <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
     </div>
@@ -213,13 +214,12 @@
     </div>
   </div>
 
-  <!-- Thanh Chấm Tròn Chuyển Hình Nền (Dots Indicator) -->
+  <!-- Thanh Chấm Tròn Chuyển Hình Nền -->
   <div class="dots-container" id="dotsContainer"></div>
 
   <div id="toast" class="toast">Đã sao chép số tài khoản!</div>
 
   <script>
-    // 12 Hình nền nghệ thuật
     const wallpapers = [
       'img/137008013658937884.jpg',
       'img/954200239789131404.jpg',
@@ -240,7 +240,6 @@
       currentBgIndex = 0;
     }
 
-    // Tạo danh sách các chấm tròn
     function renderDots() {
       const container = document.getElementById('dotsContainer');
       container.innerHTML = '';
@@ -248,7 +247,10 @@
         const dot = document.createElement('div');
         dot.className = `dot ${idx === currentBgIndex ? 'active' : ''}`;
         dot.title = `Hình nền ${idx + 1}`;
-        dot.onclick = () => applyWallpaper(idx);
+        dot.onclick = (e) => {
+          e.stopPropagation();
+          applyWallpaper(idx);
+        };
         container.appendChild(dot);
       });
     }
@@ -268,44 +270,65 @@
       applyWallpaper((currentBgIndex - 1 + wallpapers.length) % wallpapers.length);
     }
 
-    // Nhận diện Cử chỉ Vuốt Ngang trên Màn hình (Swipe Gesture)
+    // Xử lý Vuốt Ngang (Swipe) & Bấm Trái/Phải (Tap Navigation)
     let touchStartX = 0;
     let touchStartY = 0;
     let touchEndX = 0;
     let touchEndY = 0;
+    let isSwiping = false;
 
     document.addEventListener('touchstart', e => {
       touchStartX = e.changedTouches[0].screenX;
       touchStartY = e.changedTouches[0].screenY;
+      isSwiping = false;
     }, false);
 
     document.addEventListener('touchend', e => {
       touchEndX = e.changedTouches[0].screenX;
       touchEndY = e.changedTouches[0].screenY;
-      handleSwipe();
-    }, false);
-
-    function handleSwipe() {
       const diffX = touchEndX - touchStartX;
       const diffY = touchEndY - touchStartY;
-      
-      // Chỉ kích hoạt khi vuốt ngang (diffX lớn hơn diffY và lớn hơn 40px)
-      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+        isSwiping = true;
         if (diffX < 0) {
-          nextWallpaper(); // Vuốt sang trái -> Ảnh tiếp theo
+          nextWallpaper(); // Vuốt sang trái -> Ảnh tiếp
         } else {
-          prevWallpaper(); // Vuốt sang phải -> Ảnh trước đó
+          prevWallpaper(); // Vuốt sang phải -> Ảnh trước
         }
       }
-    }
+    }, false);
 
-    // Phím mũi tên Trái / Phải trên bàn phím
+    // Bấm Nửa Trái -> Ảnh trước, Bấm Nửa Phải -> Ảnh tiếp
+    document.addEventListener('click', e => {
+      if (isSwiping) {
+        isSwiping = false;
+        return;
+      }
+
+      // Bỏ qua nếu bấm vào số tài khoản hoặc thanh chấm tròn
+      if (e.target.closest('.account-number') || e.target.closest('.dots-container')) {
+        return;
+      }
+
+      const tapX = e.clientX;
+      const screenWidth = window.innerWidth;
+
+      if (tapX < screenWidth / 2) {
+        prevWallpaper(); // Bấm bên trái -> Đổi ảnh bên trái
+      } else {
+        nextWallpaper(); // Bấm bên phải -> Đổi ảnh bên phải
+      }
+    });
+
+    // Phím mũi tên Trái / Phải
     document.addEventListener('keydown', e => {
       if (e.key === 'ArrowRight') nextWallpaper();
       if (e.key === 'ArrowLeft') prevWallpaper();
     });
 
-    function copySTK() {
+    function copySTK(e) {
+      if (e) e.stopPropagation();
       navigator.clipboard.writeText("20262027202").then(() => {
         const toast = document.getElementById('toast');
         toast.classList.add('show');
