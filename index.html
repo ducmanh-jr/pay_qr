@@ -31,6 +31,7 @@
       height: 100%;
       width: 100%;
       overflow: hidden;
+      background-color: #000000 !important;
     }
 
     body {
@@ -38,22 +39,63 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-color: #0d0d11;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px) 16px;
       color: #ffffff;
       position: relative;
       touch-action: pan-y;
-      filter: brightness(1.15);
+      cursor: pointer;
     }
 
-    /* Đèn lớp phủ cực kỳ mỏng nhẹ để giữ ảnh nền tươi sáng nhất */
+    /* Khung Phone Frame mô phỏng Mi 11 Ultra */
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: env(safe-area-inset-top, 16px) 16px env(safe-area-inset-bottom, 16px) 16px;
+      transition: background-image 0.4s ease-in-out;
+    }
+
+    /* Trên Máy Tính (Desktop / Laptop): Đồ họa Khung viền Mi 11 Ultra căn giữa trên nền Đen tuyền */
+    @media (min-width: 768px) {
+      body {
+        background: #000000 !important;
+        padding: 20px;
+      }
+      
+      .phone-frame {
+        width: 100%;
+        max-width: 410px;
+        height: 850px;
+        max-height: 92vh;
+        border-radius: 44px;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-shadow: 0 0 0 10px #181820, 0 0 0 12px rgba(255, 255, 255, 0.15), 0 30px 80px rgba(0, 0, 0, 0.95);
+        filter: brightness(1.15);
+      }
+    }
+
+    /* Trên Điện Thoại Mobile: Trải rộng 100% toàn màn hình */
+    @media (max-width: 767px) {
+      body {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: brightness(1.15);
+        transition: background-image 0.4s ease-in-out;
+      }
+    }
+
+    /* Dark Vignette Overlay mỏng nhẹ */
     .bg-overlay {
-      position: fixed;
+      position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.25) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -199,7 +241,7 @@
       box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 2px 5px rgba(0, 0, 0, 0.8);
     }
 
-    /* Toast */
+    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: calc(25px + env(safe-area-inset-bottom, 0px));
@@ -239,29 +281,32 @@
 </head>
 <body>
 
-  <div class="bg-overlay"></div>
+  <!-- Khung mô phỏng Mi 11 Ultra -->
+  <div class="phone-frame" id="phoneFrame">
+    <div class="bg-overlay"></div>
 
-  <div class="main-wrapper">
-    <!-- Logo thương hiệu QR is Me -->
-    <div class="brand-badge">
-      <div class="brand-logo-icon">
-        <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 3h2v3h-2v-3zm3 0h3v5h-3v-5zm-3 3h2v2h-2v-2z"/></svg>
+    <div class="main-wrapper">
+      <!-- Logo thương hiệu QR is Me -->
+      <div class="brand-badge">
+        <div class="brand-logo-icon">
+          <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 3h2v3h-2v-3zm3 0h3v5h-3v-5zm-3 3h2v2h-2v-2z"/></svg>
+        </div>
+        <span class="brand-name">QR is <span class="brand-highlight">Me</span></span>
       </div>
-      <span class="brand-name">QR is <span class="brand-highlight">Me</span></span>
+
+      <!-- Tên & Số tài khoản đè trực tiếp lên bức ảnh nền -->
+      <div class="account-name">NGUYEN DUC MANH</div>
+      
+      <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép số tài khoản">2026 2027 202</div>
+
+      <!-- Khung QR siêu nhỏ gọn để không che ảnh nền -->
+      <div class="qr-frame">
+        <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank NGUYEN DUC MANH">
+      </div>
+
+      <!-- Dải chấm tròn chọn hình nền -->
+      <div class="dots-container" id="dotsContainer"></div>
     </div>
-
-    <!-- Tên & Số tài khoản đè trực tiếp lên bức ảnh nền -->
-    <div class="account-name">NGUYEN DUC MANH</div>
-    
-    <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép số tài khoản">2026 2027 202</div>
-
-    <!-- Khung QR siêu nhỏ gọn để không che ảnh nền -->
-    <div class="qr-frame">
-      <img class="qr-image" src="https://img.vietqr.io/image/TPB-20262027202-qr_only.png" alt="Mã QR TPBank NGUYEN DUC MANH">
-    </div>
-
-    <!-- Dải chấm tròn chọn hình nền -->
-    <div class="dots-container" id="dotsContainer"></div>
   </div>
 
   <div id="toast" class="toast">Đã sao chép số tài khoản!</div>
@@ -297,7 +342,10 @@
 
     function applyWallpaper(i) {
       currentBgIndex = i;
-      document.body.style.backgroundImage = `url('${wallpapers[i]}')`;
+      const bgUrl = `url('${wallpapers[i]}')`;
+      document.body.style.backgroundImage = bgUrl;
+      const frame = document.getElementById('phoneFrame');
+      if (frame) frame.style.backgroundImage = bgUrl;
       localStorage.setItem('saved_bg_index', i.toString());
       renderDots();
     }
