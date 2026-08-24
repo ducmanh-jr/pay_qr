@@ -127,7 +127,7 @@
       pointer-events: none;
     }
 
-    /* Dots Indicator - Trong suốt mờ mượt hòa trộn vào hình nền */
+    /* Dots Indicator - Hoàn toàn trong suốt, các chấm tròn nổi đè trực tiếp lên hình nền */
     .dots-container {
       position: relative;
       z-index: 10;
@@ -135,30 +135,29 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 6px 14px;
-      background: rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      padding: 6px 12px;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: none;
+      box-shadow: none;
     }
 
     .dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.45);
       cursor: pointer;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
     }
 
     .dot.active {
       width: 9px;
       height: 9px;
       background: #ffffff;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 2px 5px rgba(0, 0, 0, 0.8);
     }
 
     /* Toast */
