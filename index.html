@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>QR is Me - NGUYEN DUC MANH</title>
-  
+
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=3">
   <link rel="apple-touch-icon-precomposed" sizes="180x180" href="apple-touch-icon-precomposed.png?v=3">
   <link rel="icon" type="image/png" sizes="32x32" href="icon.png?v=3">
@@ -15,12 +17,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="QR is Me">
-  
+
   <link rel="manifest" href="manifest.json?v=3">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet">
 
   <style>
     * {
@@ -31,7 +34,8 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
+    html,
+    body {
       height: 100%;
       width: 100%;
       overflow: hidden;
@@ -73,7 +77,7 @@
         background: #000000 !important;
         padding: 20px;
       }
-      
+
       .phone-frame {
         width: 100%;
         max-width: 410px;
@@ -91,7 +95,7 @@
       body {
         background: #000000 !important;
       }
-      
+
       .phone-frame {
         border-radius: 0;
         box-shadow: none;
@@ -235,16 +239,26 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
     /* Tối ưu vị trí cân đối trên màn hình Mi 11 Ultra */
     @media (min-height: 800px) {
-      .main-wrapper { gap: 12px; }
+      .main-wrapper {
+        gap: 12px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Khung mô phỏng Mi 11 Ultra -->
@@ -254,7 +268,7 @@
     <div class="main-wrapper">
       <!-- Tên & Số tài khoản đè trực tiếp lên bức ảnh nền -->
       <div class="account-name">NGUYEN DUC MANH</div>
-      
+
       <div class="account-number" onclick="copySTK(event)" title="Bấm để sao chép số tài khoản">2026 2027 202</div>
 
       <!-- Khung QR với chữ M ở chính giữa -->
@@ -320,11 +334,11 @@
       const bgUrl = `url('${targetPath}')`;
       const frame = document.getElementById('phoneFrame');
       if (frame) frame.style.backgroundImage = bgUrl;
-      
+
       try {
         localStorage.setItem('saved_bg_path', targetPath);
         localStorage.setItem('saved_bg_index', i.toString());
-      } catch (e) {}
+      } catch (e) { }
 
       renderDots();
     }
@@ -369,4 +383,6 @@
     applyWallpaper(currentBgIndex);
   </script>
 </body>
+
 </html>
+// thay đổi 1
